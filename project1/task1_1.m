@@ -5,10 +5,10 @@ clear; close all; clc;
 
 % Increasing N, makes the distribution go towards the theoretical PDF
 % a more accurate representation of a uniform distribution
-N = 1000000;
+N = 10000000;
 
 % Number of bins in the bar plot
-bins = 57;
+bins = 37;
 
 % Generate functions
 [data, fx, x, fx_norm, x_norm, mu, sig] = distribution(N, bins, 'uni', 1);
@@ -35,6 +35,7 @@ title('Estimated and Theoretical PDF of Uniform Distribution');
 xlabel('Values x')
 ylabel('Density')
 xlim([x(1,1)-0.2, x(1,end)+0.2]);
+ylim([0.2 1.1]);
 legend('Estimated PDF, manual normalization', 'Theoretical PDF');
 
 % We see that when N moves towards infinity, the expected
