@@ -14,9 +14,9 @@ compr = pc(s_Tx);
 % Resample rate
 upr = 8;
 
-compr = abs(compr(1:N,:));
+compr = compr(1:N,:);
 % oppsampler pulskomprimert 4-8 for 1 kanal
-rscompr = resample(compr,upr,1);
+rscompr = abs(resample(compr,upr,1)).^2;
 p8 = rscompr(:,8);
 
 % max(nye resamplet signalet)
@@ -28,10 +28,11 @@ ax = size(p8_cut,1)/2;
 % tidsvektor, tilhørende x-samples av max/2
 t_s = linspace((ind_p8-ax)/fs,(ind_p8+ax)/fs,ax*2);
 
+
 % t_ax = linspace(t0, N/fs +t0, upr*N) to use in plots
 % Denne brukes også til observasjonsmatrisen
-t_ax = linspace(t_0, N/fs +t_0, upr*N);
-
+t_ax = linspace(t_0, N/fs + t_0, upr*N);
+t_s = t_ax (p8 > max_p8/2);
 N_s = size(t_s,2); %antall verdier i x-aksen for +max/2
 H = [ones(N_s, 1) t_s.' (t_s.^2).'];
 
@@ -49,8 +50,8 @@ I0 = exp(th0 - ((th1.^2)/(4*th2)));
 % Plotter LSE med pulsecomprimated for 1 kanal
 est = I0.*exp((-(t_ax-tau).^2)./(2*var_T));
 plot(t_ax,est/max(est)); hold on;
-plot(t_s,p8_cut/max(p8_cut),'r'); hold off;
-ylim([0.2,1.1]);
+plot(t_ax,p8/max(p8),'r'); hold off;
+%ylim([,1.1]);
 %xlim([(ind_p8-ax)/fs,(ind_p8+ax)/fs]);
 xlabel('ms');
 %ylabel('Intesity');
