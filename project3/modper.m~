@@ -1,0 +1,27 @@
+% Modified periodogram
+
+function Pxx_hat = modper(x, win, M, N)
+    load('data/sonardata4.mat');
+    x = x(:);
+    
+    if nargin == 2
+        s = 1;
+        e = length(x);
+    else
+        s = M;
+        e = M+N-1;
+    end
+    
+    L = e - s + 1;
+    w = ones(L, 1);
+    
+    if (win == 1); w = hamming(L);
+    elseif (win == 2); w = hanning(L);
+    elseif (win == 3); w = bartlett(L);
+    elseif (win == 4); w = blackman(L);
+    elseif (win == 5); w = rectan
+    end
+    
+    wx = x(s:e).* w/norm(w);
+    Pxx_hat = L*per(wx, fs);
+end
