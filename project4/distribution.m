@@ -5,6 +5,8 @@ function [data, fx, x, fx_norm, x_norm, mu, sig] = distribution(N, bins, type, v
         data = rand(v,N);
     elseif isequal(type,'norm')
         data = randn(v, N);
+    else
+        data = type;
     end
     
     if v > 1
@@ -32,7 +34,10 @@ function [data, fx, x, fx_norm, x_norm, mu, sig] = distribution(N, bins, type, v
     if isequal(type,'uni')
         x = linspace(binWidth/2,1-binWidth/2,bins);
     elseif isequal(type,'norm')
-        length = 6*sig; % 4 standard deviations, 99,7%
+        length = 8*sig; % 4 standard deviations, 99,7%
+        x = linspace(-length, length, bins);
+    else
+        length = 10*sig; % 4 standard deviations, 99,7%
         x = linspace(-length, length, bins);
     end
     
@@ -45,5 +50,5 @@ function [data, fx, x, fx_norm, x_norm, mu, sig] = distribution(N, bins, type, v
     % x-vector for normalized histogram
     edges = h.BinEdges;
     x_norm = linspace(edges(1,1), edges(1,end),bins);
-
+    close(1);
 end
